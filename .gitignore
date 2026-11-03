@@ -18,3 +18,8 @@ instructions/
 # Agent-managed worktrees (Claude Code, Hermes)
 .claude/worktrees/
 .worktrees/
+infra/**/charts/
+tunnel-creds.json
+*creds*
+*.deb
+.env

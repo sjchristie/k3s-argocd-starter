@@ -1,0 +1,8 @@
+# Automatically deploy and manage cert-manager CRDs
+crds:
+  enabled: true
+
+# Check DNS-01 propagation against public resolvers, not the cluster/home DNS
+extraArgs:
+  - --dns01-recursive-nameservers-only
+  - --dns01-recursive-nameservers=1.1.1.1:53,8.8.8.8:53
