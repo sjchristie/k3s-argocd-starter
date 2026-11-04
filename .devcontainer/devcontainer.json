@@ -1,7 +1,7 @@
 {
-  "name": "K3s GitOps",
+  "name": "K3s GitOps Workspace",
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
-
+  "runArgs": ["--dns", "192.168.0.150"],
   "features": {
     "ghcr.io/devcontainers/features/kubectl-helm-minikube:1": {
       "kubectl": "1.32.0",

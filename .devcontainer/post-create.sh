@@ -29,7 +29,7 @@ CFG
 chmod 600 ~/.ssh/config
 
 echo "==> Installing Vim and Neovim..."
-sudo apt-get update && sudo apt-get install -y vim neovim
+sudo apt-get update && sudo apt-get install -y vim neovim iputils-ping dnsutils netcat-openbsd traceroute file
 
 echo "==> Installing Helm (v3.17.1)..."
 curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | DESIRED_VERSION="v3.17.1" bash
