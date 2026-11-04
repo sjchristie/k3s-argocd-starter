@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: wildcard-christiehome-work
+  namespace: gateway
+spec:
+  secretName: wildcard-christiehome-work-tls
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  dnsNames:
+    - christiehome.work
+    - "*.christiehome.work"
