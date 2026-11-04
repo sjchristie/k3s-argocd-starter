@@ -4,3 +4,4 @@ resources:
   - gatewayclass.yaml
   - ns.yaml
   - certificate.yaml
+  - gateway-internal.yaml
