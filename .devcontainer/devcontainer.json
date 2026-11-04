@@ -1,0 +1,28 @@
+{
+  "name": "K3s GitOps",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
+
+  "features": {
+    "ghcr.io/devcontainers/features/kubectl-helm-minikube:1": {
+      "kubectl": "1.32.0",
+      "helm": "none",
+      "minikube": "none"
+    },
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
+
+  "mounts": [
+    "source=k3s-kubeconfig,target=/home/vscode/.kube,type=volume",
+    "source=k3s-cloudflared,target=/home/vscode/.cloudflared,type=volume",
+    "source=k3s-gh-config,target=/home/vscode/.config/gh,type=volume",
+    "source=${localEnv:HOME}/.ssh/pi_key,target=/home/vscode/.ssh-host/pi_key,type=bind,readonly",
+    "source=${localEnv:HOME}/.ssh/pi_key.pub,target=/home/vscode/.ssh-host/pi_key.pub,type=bind,readonly"
+  ],
+
+  "appPort": ["127.0.0.1:8080:8080"],
+  "remoteUser": "vscode"
+}
+

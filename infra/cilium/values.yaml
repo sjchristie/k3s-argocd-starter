@@ -1,0 +1,94 @@
+authentication:
+  enabled: false
+  mutual:
+    spire:
+      enabled: false
+      install:
+        server:
+          dataStorage:
+            storageClass: cilium-spire-sc
+cgroup:
+  autoMount:
+    enabled: false
+  hostRoot: /sys/fs/cgroup
+cluster:
+  id: 1
+  name: cp-01
+debug:
+  enabled: true
+envoy:
+  securityContext:
+    capabilities:
+      envoy:
+      - NET_ADMIN
+      - PERFMON
+      - BPF
+      keepCapNetBindService: true
+externalIPs:
+  enabled: true
+gatewayAPI:
+  enableAlpn: false
+  enabled: true
+hubble:
+  enabled: true
+  relay:
+    enabled: true
+    rollOutPods: true
+  ui:
+    enabled: true
+    rollOutPods: true
+ingressController:
+  default: true
+  enabled: false
+  loadbalancerMode: shared
+  service:
+    annotations:
+      io.cilium/lb-ipam-ips: 192.168.101.25
+ipam:
+  mode: kubernetes
+k8sClientRateLimit:
+  burst: 200
+  qps: 100
+k8sServiceHost: 192.168.30.20
+k8sServicePort: 6443
+kubeProxyReplacement: true
+l2announcements:
+  enabled: true
+loadBalancer:
+  algorithm: maglev
+operator:
+  replicas: 1
+  resources:
+    limits:
+      cpu: 500m
+      memory: 256Mi
+    requests:
+      cpu: 50m
+      memory: 128Mi
+  rollOutPods: true
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 100m
+    memory: 256Mi
+rollOutCiliumPods: true
+securityContext:
+  capabilities:
+    ciliumAgent:
+    - CHOWN
+    - KILL
+    - NET_ADMIN
+    - NET_RAW
+    - IPC_LOCK
+    - SYS_ADMIN
+    - SYS_RESOURCE
+    - DAC_OVERRIDE
+    - FOWNER
+    - SETGID
+    - SETUID
+    cleanCiliumState:
+    - NET_ADMIN
+    - SYS_ADMIN
+    - SYS_RESOURCE
