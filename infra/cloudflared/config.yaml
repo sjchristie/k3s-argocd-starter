@@ -1,0 +1,8 @@
+tunnel: f36b6d4e-eea4-42d8-9820-f3c3812e957b
+credentials-file: /etc/cloudflared/credentials/credentials.json
+metrics: 0.0.0.0:2000
+no-autoupdate: true
+ingress:
+  - hostname: hello.christiehome.work
+    service: hello_world
+  - service: http_status:404
