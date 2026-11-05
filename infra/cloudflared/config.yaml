@@ -5,4 +5,8 @@ no-autoupdate: true
 ingress:
   - hostname: hello.christiehome.work
     service: hello_world
+  - hostname: demo.christiehome.work
+    service: https://cilium-gateway-gateway-external.gateway.svc.cluster.local:443
+    originRequest:
+      originServerName: demo.christiehome.work  
   - service: http_status:404
