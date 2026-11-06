@@ -1,0 +1,10 @@
+# Only the LocalPV hostpath provisioner is wanted. Every other engine is off.
+engines:
+  local:
+    lvm:
+      enabled: false
+    zfs:
+      enabled: false
+  replicated:
+    mayastor:
+      enabled: false

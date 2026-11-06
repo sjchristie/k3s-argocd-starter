@@ -1,0 +1,69 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: openebs
+
+resources:
+  - ns.yaml
+
+helmCharts:
+  - name: openebs
+    repo: https://openebs.github.io/openebs
+    version: 4.1.3
+    releaseName: openebs
+    namespace: openebs
+    valuesFile: values.yaml
+
+# The chart's pre-upgrade check Job uses an old Bitnami kubectl image and only
+# matters on upgrades, so it is removed from the render.
+patches:
+  - target:
+      kind: Job
+      name: openebs-pre-upgrade-hook
+    patch: |-
+      $patch: delete
+      apiVersion: batch/v1
+      kind: Job
+      metadata:
+        name: openebs-pre-upgrade-hook
+  - target:
+      kind: ServiceAccount
+      name: openebs-pre-upgrade-hook
+    patch: |-
+      $patch: delete
+      apiVersion: v1
+      kind: ServiceAccount
+      metadata:
+        name: openebs-pre-upgrade-hook
+  - target:
+      kind: ClusterRole
+      name: openebs-pre-upgrade-hook
+    patch: |-
+      $patch: delete
+      apiVersion: rbac.authorization.k8s.io/v1
+      kind: ClusterRole
+      metadata:
+        name: openebs-pre-upgrade-hook
+  - target:
+      kind: ClusterRoleBinding
+      name: openebs-pre-upgrade-hook
+    patch: |-
+      $patch: delete
+      apiVersion: rbac.authorization.k8s.io/v1
+      kind: ClusterRoleBinding
+      metadata:
+        name: openebs-pre-upgrade-hook
+  - target:
+      kind: ServiceAccount
+      name: openebs-localpv-provisioner
+    patch: |-
+      - op: add
+        path: /metadata/namespace
+        value: openebs
+  - target:
+      kind: Deployment
+      name: openebs-localpv-provisioner
+    patch: |-
+      - op: add
+        path: /metadata/namespace
+        value: openebs
