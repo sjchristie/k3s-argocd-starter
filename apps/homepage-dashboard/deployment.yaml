@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: homepage-dashboard
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: homepage-dashboard
+  template:
+    metadata:
+      labels:
+        app: homepage-dashboard
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      containers:
+      - name: homepage-dashboard
+        image: ghcr.io/gethomepage/homepage:latest
+        env:
+        - name: HOMEPAGE_ALLOWED_HOSTS
+          value: homepage.christiehome.work
+        ports:
+        - containerPort: 3000
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop: ["ALL"]
+        volumeMounts:
+        - name: config
+          mountPath: /app/config
+      volumes:
+      - name: config
+        persistentVolumeClaim:
+          claimName: homepage-config
