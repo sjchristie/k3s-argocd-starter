@@ -1,0 +1,87 @@
+# kube-prometheus-stack 55.11.0, trimmed for one Raspberry Pi 5
+# (about 5 GiB of memory free, no swap; about 100 GB of disk shared with the OS).
+# Memory limits are ceilings, not what the pods normally use.
+
+defaultRules:
+  create: true
+  rules:
+    etcd: false
+    kubeScheduler: false
+
+alertmanager:
+  enabled: true
+  # No persistent volume: silences are lost on restart (lab setup).
+  alertmanagerSpec:
+    resources:
+      requests: {cpu: 10m, memory: 32Mi}
+      limits: {memory: 128Mi}
+
+grafana:
+  enabled: true
+  # The admin login comes from a Secret created by hand (never committed).
+  admin:
+    existingSecret: grafana-admin
+    userKey: admin-user
+    passwordKey: admin-password
+  persistence:
+    type: pvc
+    enabled: true
+    storageClassName: openebs-hostpath
+    accessModes: ["ReadWriteOnce"]
+    size: 2Gi
+  testFramework:
+    enabled: false
+  resources:
+    requests: {cpu: 50m, memory: 128Mi}
+    limits: {memory: 384Mi}
+  sidecar:
+    resources:
+      requests: {cpu: 10m, memory: 64Mi}
+      limits: {memory: 128Mi}
+
+# K3s does not expose these components
+kubeControllerManager:
+  enabled: false
+kubeEtcd:
+  enabled: false
+kubeScheduler:
+  enabled: false
+kubeProxy:
+  enabled: false
+
+prometheusOperator:
+  # Removes the certificate-patching Jobs and the webhook configurations.
+  # TLS has to go with them, or the operator waits for a certificate secret.
+  admissionWebhooks:
+    enabled: false
+  tls:
+    enabled: false
+  resources:
+    requests: {cpu: 50m, memory: 64Mi}
+    limits: {memory: 256Mi}
+
+kube-state-metrics:
+  resources:
+    requests: {cpu: 10m, memory: 32Mi}
+    limits: {memory: 128Mi}
+
+prometheus-node-exporter:
+  resources:
+    requests: {cpu: 10m, memory: 16Mi}
+    limits: {memory: 64Mi}
+
+prometheus:
+  prometheusSpec:
+    retention: 10d
+    retentionSize: 12GB        # a hard cap, below the 15Gi volume
+    resources:
+      requests: {cpu: 200m, memory: 400Mi}
+      limits: {cpu: 500m, memory: 1024Mi}
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: openebs-hostpath
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 15Gi
