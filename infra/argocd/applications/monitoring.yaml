@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: monitoring
+  namespace: argocd
+spec:
+  project: infrastructure
+  source:
+    repoURL: https://github.com/sjchristie/k3s-argocd-starter.git
+    targetRevision: scratch
+    path: infra/monitoring/kube-prometheus-stack
+    plugin:
+      name: kustomize-build-with-helm
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring
+  syncPolicy:
+    syncOptions:
+      - ServerSideApply=true
