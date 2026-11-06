@@ -1,0 +1,14 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cloudflared
+  namespace: argocd
+spec:
+  project: infrastructure
+  source:
+    repoURL: https://github.com/sjchristie/k3s-argocd-starter.git
+    targetRevision: scratch
+    path: infra/cloudflared
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: cloudflared
