@@ -1,5 +1,6 @@
 configs:
   cm:
+    url: https://argocd.christiehome.work
     create: true
     application.resourceTrackingMethod: "annotation+label"
   cmp:
