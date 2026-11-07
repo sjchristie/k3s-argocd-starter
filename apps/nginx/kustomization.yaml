@@ -6,7 +6,6 @@ resources:
   - namespace.yaml
   - deployment.yaml
   - service.yaml
-  - pvc.yaml
   - httproute.yaml
 
 namespace: nginx-example
